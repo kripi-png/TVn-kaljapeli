@@ -1,11 +1,13 @@
 .buttons {
-  text-align: center;
+  margin-left: 20%;
 }
 
 .button {
   height: 200px;
   width: fit-content;
   border: 0;
+
+  transition: all .07s;
 }
 
 .button:focus {
@@ -26,4 +28,8 @@
 .lonkero-button {
   background: url('') no-repeat;
   background-size: 100% auto;
+}
+
+.active {
+  transform: scale(1.1);
 }
