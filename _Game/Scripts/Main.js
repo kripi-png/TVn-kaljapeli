@@ -14,11 +14,11 @@ class Kaljapeli extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet('TV', '/_Game/assets/images/TV.png', { frameWidth: 150, frameHeight: 300 });
-    this.load.spritesheet('drinkKalja', '/_Game/assets/images/drinkKalja.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
-    this.load.spritesheet('drinkLonkero', '/_Game/assets/images/drinkLonkero.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
-    this.load.spritesheet('arrow', '/_Game/assets/images/arrow.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
-    this.load.image('background', '/_Game/assets/images/background.png');
+    this.load.spritesheet('TV', './_Game/assets/images/TV.png', { frameWidth: 150, frameHeight: 300 });
+    this.load.spritesheet('drinkKalja', './_Game/assets/images/drinkKalja.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
+    this.load.spritesheet('drinkLonkero', './_Game/assets/images/drinkLonkero.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
+    this.load.spritesheet('arrow', './_Game/assets/images/arrow.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
+    this.load.image('background', './_Game/assets/images/background.png');
   }
 
   create() {
