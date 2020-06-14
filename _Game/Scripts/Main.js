@@ -3,7 +3,10 @@ const [ spawnX, spawnY ] = [ 1024/2, 600/2 ];
 let lastDrink = 0;
 const drinkCooldown = 1000;
 
+let text;
 let player;
+let kaljaCounter = 0;
+
 
 class Kaljapeli extends Phaser.Scene {
   constructor() {
@@ -43,10 +46,18 @@ class Kaljapeli extends Phaser.Scene {
 
     this.anims.create(drinkKalja);
     this.anims.create(drinkLonkero);
+
+
+    const style = { font: "bold 32px Arial", fill: "#fff" };
+
+    //  The Text is positioned at 0, 100
+    text = this.add.text(750, 0, `Kalja Counter: ${kaljaCounter}`, style);
   }
 
   update(time, delta) {
-
+    text.setText(
+      `Kalja Counter: ${kaljaCounter}`
+    );
   }
 }
 
@@ -63,6 +74,7 @@ function drinkHandler() {
 
   if ( this.name === 'kalja' ) {
     player.play('drinkKalja');
+    kaljaCounter++;
 
   } else {
     player.play('drinkLonkero');
