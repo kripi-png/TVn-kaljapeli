@@ -14,6 +14,7 @@ class Kaljapeli extends Phaser.Scene {
     this.load.spritesheet('TV', '/_Game/assets/images/TV.png', { frameWidth: 150, frameHeight: 300 });
     this.load.spritesheet('drinkKalja', '/_Game/assets/images/drinkKalja.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
     this.load.spritesheet('drinkLonkero', '/_Game/assets/images/drinkLonkero.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
+    this.load.spritesheet('arrow', '/_Game/assets/images/arrow.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
     this.load.image('background', '/_Game/assets/images/background.png');
   }
 
@@ -42,19 +43,19 @@ class Kaljapeli extends Phaser.Scene {
 
     this.anims.create(drinkKalja);
     this.anims.create(drinkLonkero);
-
-
   }
 
   update(time, delta) {
 
   }
-
 }
 
 function drinkHandler() {
   const timeDelta = game.getTime() - lastDrink;
   if ( !(timeDelta >= drinkCooldown) ) return;
+
+  const audio = getSound('canclick');
+  audio.play();
 
   this.classList.add('active');
 
@@ -63,40 +64,52 @@ function drinkHandler() {
   if ( this.name === 'kalja' ) {
     player.play('drinkKalja');
 
-
-
-
-
-
-
   } else {
     player.play('drinkLonkero');
 
-
-
-
-
-
-
+    setTimeout(function () {
+      let arrow = game.scene.scenes[0].physics.add.sprite(player.x, player.y - 140, 'arrow');
+      arrow.body.angularVelocity = -500;
+      arrow.setScale(2);
+      arrow.setVelocityX(-600);
+    }, 600);
   }
+}
+
+function getSound(name) {
+  let audio;
+  audios.forEach(item => {
+    if ( item.dataset.name === name ) {
+      audio = item;
+    }
+  });
+
+  return audio;
 }
 
 const gameSettings = {
   height: 600,
   type: Phaser.WEBGL,
   parent: 'game-canvas',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 0 },
+      debug: false
+    }
+  },
   scene: Kaljapeli
 }
 
 const game = new Phaser.Game(gameSettings);
 
-window.onload=()=>{
-  const buttons = document.querySelectorAll('.button');
-  buttons.forEach(button => {
-    button.addEventListener('click', drinkHandler);
-    button.addEventListener('transitionend', (e) => {
-      // console.log(e);
-      button.classList.remove('active');
-    });
+const buttons = document.querySelectorAll('.button');
+buttons.forEach(button => {
+  button.addEventListener('click', drinkHandler);
+  button.addEventListener('transitionend', (e) => {
+    // console.log(e);
+    button.classList.remove('active');
   });
-};
+});
+
+const audios = document.querySelectorAll('audio');
