@@ -1,0 +1,29 @@
+.buttons {
+  text-align: center;
+}
+
+.button {
+  height: 200px;
+  width: fit-content;
+  border: 0;
+}
+
+.button:focus {
+  outline: 0;
+}
+
+.button img {
+  width: auto;
+  height: 100%;
+  margin: 4px;
+}
+
+.kalja-button {
+  background: url('') no-repeat;
+  background-size: 100% auto;
+}
+
+.lonkero-button {
+  background: url('') no-repeat;
+  background-size: 100% auto;
+}

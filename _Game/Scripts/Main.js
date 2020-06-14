@@ -1,11 +1,11 @@
-class Ripoff extends Phaser.Scene {
+class Kaljapeli extends Phaser.Scene {
   constructor() {
     super();
   }
 
   preload() {
-    this.load.image('TV', '/_Game/assets/sprites/TV.png')
-    this.load.image('background', '/_Game/assets/images/TV.png')
+    this.load.image('TV', '/_Game/assets/images/TV.png');
+    this.load.image('background', '/_Game/assets/images/background.png');
   }
 
   create() {
@@ -17,17 +17,16 @@ class Ripoff extends Phaser.Scene {
   }
 }
 
-gameSettings = {
+const gameSettings = {
+  height: 600,
   type: Phaser.WEBGL,
-  parent: 'phaser-example',
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { y: 0 },
-      debug: false
-    }
-  },
-  scene: Ripoff'
+  parent: 'game-canvas',
+  scene: Kaljapeli
 }
 
-export default const game = new Phaser.Game(gameSettings);
+export const game = new Phaser.Game(gameSettings);
+
+export const kaljaButton = document.querySelector('#kaljaButton');
+kaljaButton.addEventListener('click', () => Kaljapeli.drinkHandler('kalja'));
+export const lonkeroButton = document.querySelector('#lonkeroButton');
+lonkeroButton.addEventListener('click', () => Kaljapeli.drinkHandler('lonkero'));
