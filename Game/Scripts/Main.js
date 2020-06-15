@@ -19,6 +19,8 @@ class Kaljapeli extends Phaser.Scene {
     this.load.spritesheet('drinkLonkero', './Game/Assets/images/drinkLonkero.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
     this.load.spritesheet('arrow', './Game/Assets/images/arrow.png', { frameWidth: 150, frameHeight: 300, endFrame: 4 });
     this.load.image('background', './Game/Assets/images/background.png');
+    this.load.image('kaljaButton', './Game/Assets/images/kalja.png');
+    this.load.image('lonkeroButton', './Game/Assets/images/lonkero.png');
   }
 
   create() {
@@ -26,18 +28,17 @@ class Kaljapeli extends Phaser.Scene {
     // so e.g. for a background you probably want to use
     // gameWidth / 2, gameHeight / 2
     const background = this.add.image(1024/2, 600/2, 'background');
-
     player = this.add.sprite(spawnX,spawnY,'TV', 0);
     player.setScale(2)
 
-    var drinkKalja = {
+    const drinkKalja = {
         key: 'drinkKalja',
         frames: this.anims.generateFrameNumbers('drinkKalja', { start: 0, end: 4 }),
         frameRate: 5,
         repeat: 0
     };
 
-    var drinkLonkero = {
+    const drinkLonkero = {
         key: 'drinkLonkero',
         frames: this.anims.generateFrameNumbers('drinkLonkero', { start: 0, end: 4 }),
         frameRate: 5,
@@ -47,11 +48,21 @@ class Kaljapeli extends Phaser.Scene {
     this.anims.create(drinkKalja);
     this.anims.create(drinkLonkero);
 
-
     const style = { font: "bold 32px Arial", fill: "#fff" };
-
-    //  The Text is positioned at 0, 100
     text = this.add.text(750, 0, `Kalja Counter: ${kaljaCounter}`, style);
+
+    // button
+    const kaljaButton = this.add.image( 60, 500, 'kaljaButton')
+    kaljaButton.setScale(.30);
+    kaljaButton.setInteractive()
+      .on('pointerdown', () => { kaljaButton.setScale( .32 ); drinkHandler('kalja') })
+      .on('pointerup', () => kaljaButton.setScale( .30 ));
+
+    const lonkeroButton = this.add.image( 160, 500, 'lonkeroButton')
+    lonkeroButton.setScale(.30);
+    lonkeroButton.setInteractive()
+      .on('pointerdown', () => { lonkeroButton.setScale( .32 ); drinkHandler('lonkero') })
+      .on('pointerup', () => lonkeroButton.setScale( .30 ));
   }
 
   update(time, delta) {
@@ -61,18 +72,17 @@ class Kaljapeli extends Phaser.Scene {
   }
 }
 
-function drinkHandler() {
+function drinkHandler( str ) {
   const timeDelta = game.getTime() - lastDrink;
   if ( !(timeDelta >= drinkCooldown) ) return;
+  lastDrink = game.getTime();
 
   const audio = getSound('canclick');
   audio.play();
 
-  this.classList.add('active');
+  console.log(str);
 
-  lastDrink = game.getTime();
-
-  if ( this.name === 'kalja' ) {
+  if ( str === 'kalja' ) {
     player.play('drinkKalja');
     kaljaCounter++;
 
@@ -114,14 +124,5 @@ const gameSettings = {
 }
 
 const game = new Phaser.Game(gameSettings);
-
-const buttons = document.querySelectorAll('.button');
-buttons.forEach(button => {
-  button.addEventListener('click', drinkHandler);
-  button.addEventListener('transitionend', (e) => {
-    // console.log(e);
-    button.classList.remove('active');
-  });
-});
 
 const audios = document.querySelectorAll('audio');
