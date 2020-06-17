@@ -7,7 +7,6 @@ let text;
 let player;
 let kaljaCounter = 0;
 
-
 class Kaljapeli extends Phaser.Scene {
   constructor() {
     super();
@@ -77,8 +76,8 @@ function drinkHandler( str ) {
   if ( !(timeDelta >= drinkCooldown) ) return;
   lastDrink = game.getTime();
 
-  const audio = getSound('canclick');
-  audio.play();
+  const canclick = getSound('canclick');
+  canclick.play();
 
   console.log(str);
 
@@ -87,9 +86,12 @@ function drinkHandler( str ) {
     kaljaCounter++;
 
   } else {
+    const hyisaatana = getSound('hyisaatana');
+    hyisaatana.volume = .1;
     player.play('drinkLonkero');
 
     setTimeout(function () {
+      hyisaatana.play();
       let arrow = game.scene.scenes[0].physics.add.sprite(player.x, player.y - 140, 'arrow');
       arrow.body.angularVelocity = -500;
       arrow.setScale(2);
