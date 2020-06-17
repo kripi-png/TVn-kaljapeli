@@ -79,8 +79,6 @@ function drinkHandler( str ) {
   const canclick = getSound('canclick');
   canclick.play();
 
-  console.log(str);
-
   if ( str === 'kalja' ) {
     player.play('drinkKalja');
     kaljaCounter++;
