@@ -51,17 +51,24 @@ class Kaljapeli extends Phaser.Scene {
     text = this.add.text(750, 0, `Kalja Counter: ${kaljaCounter}`, style);
 
     // button
-    const kaljaButton = this.add.image( 60, 500, 'kaljaButton')
+    const kaljaButton = this.add.image( 60, 500, 'kaljaButton');
     kaljaButton.setScale(.30);
     kaljaButton.setInteractive()
       .on('pointerdown', () => { kaljaButton.setScale( .32 ); drinkHandler('kalja') })
       .on('pointerup', () => kaljaButton.setScale( .30 ));
 
-    const lonkeroButton = this.add.image( 160, 500, 'lonkeroButton')
+    const lonkeroButton = this.add.image( 160, 500, 'lonkeroButton');
     lonkeroButton.setScale(.30);
     lonkeroButton.setInteractive()
       .on('pointerdown', () => { lonkeroButton.setScale( .32 ); drinkHandler('lonkero') })
       .on('pointerup', () => lonkeroButton.setScale( .30 ));
+
+    const driveButton = this.add.text( 10, 10, 'Aja', { font: "bold 32px Arial", fill: "#000" });
+    driveButton.setScale( 1.5 );
+    driveButton.setInteractive()
+    .on( 'pointerdown', () => { driveButton.setScale( 1.82 ); driveButtonHandler() })
+    .on( 'pointerup', () => { driveButton.setScale( 1 ); });
+
   }
 
   update(time, delta) {
@@ -109,6 +116,34 @@ function getSound(name) {
   return audio;
 }
 
+function driveButtonHandler() {
+  game.scene.start( 'Drive' );
+  game.scene.stop( 'Kaljapeli' );
+  game.scene.destroy( 'Kaljapeli' );
+}
+
+class DriveMode extends Phaser.Scene {
+  constructor() {
+    super();
+  }
+
+  preload() {
+    this.load.image('car', './Game/Assets/images/car.png');
+    this.load.image('road', './Game/Assets/images/road.png');
+  }
+
+  create() {
+    console.log( 'asd' );
+    console.log( this );
+    const background = this.add.image(1024/2, 600/2, 'road');
+    player = this.add.sprite(100,100,'car', 0);
+  }
+
+  update() {
+
+  }
+ }
+
 const gameSettings = {
   height: 600,
   type: Phaser.WEBGL,
@@ -124,5 +159,6 @@ const gameSettings = {
 }
 
 const game = new Phaser.Game(gameSettings);
+game.scene.add( 'Drive', DriveMode );
 
 const audios = document.querySelectorAll('audio');
